@@ -107,6 +107,7 @@ public class PresentacionEstudiantes {
                 eliminar(estudianteDAO, consola);
             }
             case 6 -> {
+                System.out.println("Goodbye!");
                 salir = true;
             }
             default -> {
