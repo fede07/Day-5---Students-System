@@ -21,6 +21,13 @@ public class Estudiante {
         this.email = email;
     }
 
+    public Estudiante(String nombre, String apellido, String telefono, String email) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
+        this.email = email;
+    }
+
     public int getIdEstudiante() {
         return idEstudiante;
     }
