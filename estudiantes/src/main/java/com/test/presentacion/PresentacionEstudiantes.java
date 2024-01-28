@@ -1,6 +1,5 @@
 package com.test.presentacion;
 
-import java.util.List;
 import java.util.Scanner;
 
 import com.test.datos.EstudianteDAO;
