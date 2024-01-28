@@ -20,7 +20,72 @@ public class PresentacionEstudiantes {
             }
             System.out.println();
         }
+    }
 
+    private static void listar(EstudianteDAO estudianteDAO){
+        System.out.println("Listado Estudiantes: ");
+        var estudiantes = estudianteDAO.listarEstudiantes();
+        estudiantes.forEach(System.out::println);
+    }
+
+    private static void buscar(EstudianteDAO estudianteDAO, Scanner consola){
+        System.out.println("ID Estudiante a buscar: ");
+        var idEstudiante = Integer.parseInt(consola.nextLine());
+        Estudiante estudianteBuscar = new Estudiante(idEstudiante);
+        var encontrado = estudianteDAO.buscarEstudianteId(estudianteBuscar);
+        if (encontrado) {
+            System.out.println("Estudiante encontrado: " + estudianteBuscar);
+        } else {
+            System.out.println("No se encontro estudiante con id " + estudianteBuscar.getIdEstudiante());
+        }
+    }
+
+    private static Estudiante datosEstudiante(Scanner consola){
+        System.out.print("Nombre estudiante: ");
+        var nombre = consola.nextLine();
+        System.out.print("Apellido: ");
+        var apellido = consola.nextLine();
+        System.out.print("Telefono: ");
+        var telefono = consola.nextLine();
+        System.out.print("Email: ");
+        var email = consola.nextLine();
+        Estudiante estudiante = new Estudiante(nombre, apellido, telefono, email);
+        return estudiante;
+    }
+
+    private static void agregar(EstudianteDAO estudianteDAO, Scanner consola){
+        Estudiante nuevoEstudiante = datosEstudiante(consola);
+        var agregado = estudianteDAO.agregarEstudiante(nuevoEstudiante);
+        if (agregado) {
+            System.out.println("Estudiante agregado: " + nuevoEstudiante);
+        } else {
+            System.out.println("No se agrego el estudiante" + nuevoEstudiante);
+        }
+    }
+
+    private static void modificar(EstudianteDAO estudianteDAO, Scanner consola){
+        System.out.print("ID estudiante a modificar: ");
+        var idEstudiante = Integer.parseInt(consola.nextLine());
+        Estudiante estudianteModificar = datosEstudiante(consola);
+        estudianteModificar.setIdEstudiante(idEstudiante);
+        var modificado = estudianteDAO.modificarEstudiante(estudianteModificar);
+        if (modificado) {
+            System.out.println("Estudiante Modificado: " + estudianteModificar);
+        } else {
+            System.out.println("Estudiante no modificado: " + estudianteModificar);
+        }
+    }
+
+    private static void eliminar(EstudianteDAO estudianteDAO, Scanner consola){
+        System.out.print("ID estudiante a eliminar: ");
+        var idEstudiante = Integer.parseInt(consola.nextLine());
+        var estudianteEliminar = new Estudiante(idEstudiante);
+        var eliminado = estudianteDAO.eliminarEstudiante(estudianteEliminar);
+        if (eliminado) {
+            System.out.println("Estudiante eliminado: " + estudianteEliminar);
+        }else{
+            System.out.println("No se elimino " + estudianteEliminar);
+        }
     }
 
     private static boolean ejecutarOperacion(Scanner consola, EstudianteDAO estudianteDAO) {
@@ -28,72 +93,23 @@ public class PresentacionEstudiantes {
         var salir = false;
         switch (opcion) {
             case 1 -> { // LISTAR
-                System.out.println("Listado Estudiantes: ");
-                List<Estudiante> estudiantes = estudianteDAO.listarEstudiantes();
-                estudiantes.forEach(System.out::println);
+                listar(estudianteDAO);
             }
             case 2 -> { // BUSCAR
-                System.out.println("ID Estudiante a buscar: ");
-                var idEstudiante = Integer.parseInt(consola.nextLine());
-                Estudiante estudianteBuscar = new Estudiante(idEstudiante);
-                var encontrado = estudianteDAO.buscarEstudianteId(estudianteBuscar);
-                if (encontrado) {
-                    System.out.println("Estudiante encontrado: " + estudianteBuscar);
-                } else {
-                    System.out.println("No se encontro estudiante con id " + estudianteBuscar.getIdEstudiante());
-                }
+                buscar(estudianteDAO, consola);
             }
             case 3 -> { // AGREGAR
-                System.out.print("Nombre estudiante: ");
-                var nombre = consola.nextLine();
-                System.out.print("Apellido: ");
-                var apellido = consola.nextLine();
-                System.out.print("Telefono: ");
-                var telefono = consola.nextLine();
-                System.out.print("Email: ");
-                var email = consola.nextLine();
-                Estudiante nuevoEstudiante = new Estudiante(nombre, apellido, telefono, email);
-                var agregado = estudianteDAO.agregarEstudiante(nuevoEstudiante);
-                if (agregado) {
-                    System.out.println("Estudiante agregado: " + nuevoEstudiante);
-                } else {
-                    System.out.println("No se agrego el estudiante" + nuevoEstudiante);
-                }
+                agregar(estudianteDAO, consola);
             }
             case 4 -> { // MODIFICAR
-                System.out.print("ID estudiante a modificar: ");
-                var idEstudiante = Integer.parseInt(consola.nextLine());
-                System.out.print("Nombre estudiante: ");
-                var nombre = consola.nextLine();
-                System.out.print("Apellido: ");
-                var apellido = consola.nextLine();
-                System.out.print("Telefono: ");
-                var telefono = consola.nextLine();
-                System.out.print("Email: ");
-                var email = consola.nextLine();
-                Estudiante estudianteModificar = new Estudiante(idEstudiante, nombre, apellido, telefono, email);
-                var modificado = estudianteDAO.modificarEstudiante(estudianteModificar);
-                if (modificado) {
-                    System.out.println("Estudiante Modificado: " + estudianteModificar);
-                } else {
-                    System.out.println("Estudiante no modificado: " + estudianteModificar);
-                }
+                modificar(estudianteDAO, consola);
             }
             case 5 -> { //ELIMINAR
-                System.out.print("ID estudiante a eliminar: ");
-                var idEstudiante = Integer.parseInt(consola.nextLine());
-                var estudianteEliminar = new Estudiante(idEstudiante);
-                var eliminado = estudianteDAO.eliminarEstudiante(estudianteEliminar);
-                if (eliminado) {
-                    System.out.println("Estudiante eliminado: " + estudianteEliminar);
-                }else{
-                    System.out.println("No se elimino " + estudianteEliminar);
-                }
+                eliminar(estudianteDAO, consola);
             }
             case 6 -> {
                 salir = true;
             }
-
             default -> {
                 System.out.println("Opcion invalida");
             }
